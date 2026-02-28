@@ -9,4 +9,6 @@ path = "src/main.rs"
 
 [dependencies]
 hidapi = "2.6.5"
+log = "0.4"
 regex = "1"
+systemd-journal-logger = "2"
