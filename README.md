@@ -1,26 +1,33 @@
 # Husky Glacier Linux
 
-> This is a Linux port of my HuskyGlacier Windows program.
+> Linux port of HuskyGlacier — reads CPU temperature via sysfs hwmon and forwards it to the Husky Glacier HWT700PT pump over USB HID.
 
-# Installation
+## Requirements
+
+- Rust toolchain (`cargo`)
+- A supported CPU temperature driver: `coretemp`, `k8temp`, `k10temp`, or `zenpower`
+
+## Installation
 
 ```bash
-cp ./target/release/huskyglacier /usr/local/bin/
+make
+sudo make install
 ```
 
-```bash
-sudo useradd -r -s /usr/sbin/nologin husky
-# add group husky too?
-```
+This will:
+1. Build the release binary
+2. Create a dedicated `husky` system user and group
+3. Install the udev rule so the pump is accessible to the `husky` group
+4. Install, enable, and start the systemd service
+
+## Logs
 
 ```bash
-cp huskyglacier.service /etc/systemd/system/
-systemctl daemon-reload
-systemctl enable --now huskyglacier
+journalctl -u huskyglacier.service -f
 ```
 
+## Uninstall
+
 ```bash
-cp 99-husky.rules /etc/udev/rules.d/99-husky.rules
-sudo udevadm control --reload
-sudo udevadm trigger
+sudo make uninstall
 ```
