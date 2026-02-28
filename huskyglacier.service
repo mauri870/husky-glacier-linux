@@ -1,0 +1,26 @@
+[Unit]
+Description=Husky Glacier
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/huskyglacier
+Restart=always
+RestartSec=5
+
+User=husky
+Group=husky
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+RestrictRealtime=true
+
+PrivateDevices=false
+
+[Install]
+WantedBy=multi-user.target
