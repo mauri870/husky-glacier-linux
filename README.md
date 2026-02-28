@@ -15,8 +15,8 @@ sudo make install
 
 This will:
 1. Build the release binary
-2. Create a dedicated `husky` system user and group
-3. Install the udev rule so the pump is accessible to the `husky` group
+2. Create a dedicated `huskyglacier` system user and group
+3. Install the udev rule so the pump is accessible to the `huskyglacier` group
 4. Install, enable, and start the systemd service
 
 ## Logs
