@@ -8,3 +8,5 @@ name = "huskyglacier"
 path = "src/main.rs"
 
 [dependencies]
+hidapi = "2.6.5"
+regex = "1"
