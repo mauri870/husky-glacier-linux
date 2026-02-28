@@ -8,7 +8,9 @@ name = "huskyglacier"
 path = "src/main.rs"
 
 [dependencies]
+ctrlc = "3"
 hidapi = "2.6.5"
 log = "0.4"
 regex = "1"
 systemd-journal-logger = "2"
+tokio = { version = "1", features = ["rt", "macros", "time", "sync"] }

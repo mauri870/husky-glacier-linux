@@ -2,8 +2,10 @@ use hidapi::{HidApi, HidDevice};
 use log::{error, info, warn};
 use regex::Regex;
 use std::sync::LazyLock;
+use std::time::Duration;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+#[tokio::main(flavor = "current_thread")]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Log directly to the systemd journal with proper priority metadata.
     systemd_journal_logger::JournalLog::new()
         .map_err(|e| format!("Failed to create journal logger: {}", e))?
@@ -38,13 +40,29 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     info!("Connected to pump device {:04X}:{:04X}", PUMPVID, PUMPPID);
 
+    let (shutdown_tx, mut shutdown_rx) = tokio::sync::oneshot::channel::<()>();
+    let mut shutdown_tx = Some(shutdown_tx);
+    ctrlc::set_handler(move || {
+        if let Some(tx) = shutdown_tx.take() {
+            let _ = tx.send(());
+        }
+    })?;
+
     loop {
         let temp = get_cpu_temp(&cpu_sensor_path);
         if let Err(e) = send_temp_to_pump(&hid_device, temp) {
             error!("Failed to send temperature to pump: {}", e);
         }
-        std::thread::sleep(std::time::Duration::from_secs(1));
+        tokio::select! {
+            _ = tokio::time::sleep(Duration::from_secs(1)) => {}
+            _ = &mut shutdown_rx => {
+                info!("Shutting down");
+                break;
+            }
+        }
     }
+
+    Ok(())
 }
 
 fn get_cpu_temp(cpu_sensor_path: &str) -> u8 {
