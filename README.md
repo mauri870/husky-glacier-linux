@@ -1,11 +1,10 @@
 # Husky Glacier Linux
 
-> Linux port of HuskyGlacier — reads CPU temperature via sysfs hwmon and forwards it to the Husky Glacier HWT700PT pump over USB HID.
+> Linux port of my [Husky Glacier Windows App](https://github.com/mauri870/HuskyGlacier). Refer to the original project for details. 
 
 ## Requirements
 
 - Rust toolchain (`cargo`)
-- A supported CPU temperature driver: `coretemp`, `k8temp`, `k10temp`, or `zenpower`
 
 ## Installation
 
