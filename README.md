@@ -1,6 +1,8 @@
 # Husky Glacier Linux
 
-> Linux port of my [Husky Glacier Windows App](https://github.com/mauri870/HuskyGlacier). Refer to the original project for details. 
+Linux port of my [Husky Glacier Windows App](https://github.com/mauri870/HuskyGlacier). Refer to the original project for details.
+
+Tested with a water cooler pump reported as USB Vendor ID and Product ID `aa88:8666 (铭研科技 温度显示HID设备)`.
 
 ## Requirements
 
